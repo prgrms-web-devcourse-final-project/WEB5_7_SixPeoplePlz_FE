@@ -1,0 +1,81 @@
+{
+  "expo": {
+    "name": "진짜할게",
+    "slug": "jinjahalgae-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "com.jinjahalgae.app",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "splash": {
+        "image": "./assets/images/splash-icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff",
+        "tabletImage": "./assets/images/splash-icon.png"
+      },
+      "bundleIdentifier": "com.jinjahalgae.app"
+    },
+    "android": {
+      "package": "com.jinjahalgae.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "googleServicesFile": "./google-services.json",
+      "edgeToEdgeEnabled": true,
+      "splash": {
+        "image": "./assets/images/splash-icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff",
+        "mdpi": "./assets/images/splash-icon.png",
+        "hdpi": "./assets/images/splash-icon.png",
+        "xhdpi": "./assets/images/splash-icon.png",
+        "xxhdpi": "./assets/images/splash-icon.png",
+        "xxxhdpi": "./assets/images/splash-icon.png"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/images/splash-icon.png",
+            "backgroundColor": "#ffffff"
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#ffffff"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "972e0df3-278b-4667-8ab5-9b6105279565"
+      }
+    }
+  }
+}

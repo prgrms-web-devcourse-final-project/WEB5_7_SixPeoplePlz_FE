@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759203652749",
+    "project_id": "jjhg-b70d9",
+    "storage_bucket": "jjhg-b70d9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759203652749:android:37edd0d50d41aa90a1eec4",
+        "android_client_info": {
+          "package_name": "com.jinjahalgae.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7wIlnF5BPUHsE_eIt2kUsmoZSTX9QjXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
