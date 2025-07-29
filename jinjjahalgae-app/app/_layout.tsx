@@ -166,11 +166,7 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="supervise/[id]/detail"
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="supervise/[id]/detail/[proofId]"
+                name="supervise/[id]/proofs/[proofId]"
                 options={{ headerShown: false }}
               />
               <Stack.Screen

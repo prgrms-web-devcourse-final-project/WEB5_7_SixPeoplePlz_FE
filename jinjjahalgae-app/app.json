@@ -10,14 +10,14 @@
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
       "splash": {
         "image": "./assets/images/splash-icon.png",
-        "resizeMode": "contain",
+        "resizeMode": "cover",
         "backgroundColor": "#ffffff",
         "tabletImage": "./assets/images/splash-icon.png"
       },
@@ -26,14 +26,13 @@
     "android": {
       "package": "com.jinjahalgae.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "splash": {
         "image": "./assets/images/splash-icon.png",
-        "resizeMode": "contain",
+        "resizeMode": "cover",
         "backgroundColor": "#ffffff",
         "mdpi": "./assets/images/splash-icon.png",
         "hdpi": "./assets/images/splash-icon.png",
@@ -53,7 +52,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "resizeMode": "contain",
+          "resizeMode": "cover",
           "backgroundColor": "#ffffff",
           "dark": {
             "image": "./assets/images/splash-icon.png",

@@ -1,6 +1,14 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { registerForPushNotificationsAsync, setupNotificationListeners } from '../utils/pushNotifications';
-import * as Notifications from 'expo-notifications';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import {
+  registerForPushNotificationsAsync,
+  setupNotificationListeners,
+} from "../utils/pushNotifications";
 
 // 웹뷰 컨텍스트 타입
 interface WebViewContextType {
@@ -31,16 +39,39 @@ export function WebViewProvider({ children }: WebViewProviderProps) {
     initializePushNotifications();
   }, []);
 
+  // FCM 토큰이 업데이트되면 웹뷰에 알림
+  useEffect(() => {
+    if (fcmToken) {
+      console.log("FCM token updated in context, notifying WebView:", fcmToken);
+      // 토큰이 객체인 경우 문자열만 추출
+      let tokenString = fcmToken;
+      if (
+        typeof fcmToken === "object" &&
+        fcmToken !== null &&
+        "fcmToken" in fcmToken
+      ) {
+        tokenString = (fcmToken as any).fcmToken;
+      }
+      // sendMessageToWebView가 설정된 후에만 호출
+      setTimeout(() => {
+        sendMessageToWebView({
+          type: "FCM_TOKEN_RESPONSE",
+          token: tokenString,
+        });
+      }, 100);
+    }
+  }, [fcmToken]);
+
   // 푸시 알림 초기화
   const initializePushNotifications = async () => {
     try {
       const token = await registerForPushNotificationsAsync();
       if (token) {
         setFcmToken(token);
-        console.log('FCM Token initialized:', token);
+        console.log("FCM Token initialized:", token);
       }
     } catch (error) {
-      console.error('Failed to initialize push notifications:', error);
+      console.error("Failed to initialize push notifications:", error);
     }
   };
 
@@ -49,20 +80,20 @@ export function WebViewProvider({ children }: WebViewProviderProps) {
     const cleanup = setupNotificationListeners(
       // 알림 수신 시 처리
       (notification) => {
-        console.log('Notification received:', notification);
+        console.log("Notification received:", notification);
         // 웹뷰에 알림 데이터 전송
         sendMessageToWebView({
-          type: 'NOTIFICATION_RECEIVED',
-          data: notification
+          type: "NOTIFICATION_RECEIVED",
+          data: notification,
         });
       },
       // 알림 탭 시 처리
       (response) => {
-        console.log('Notification response:', response);
+        console.log("Notification response:", response);
         // 웹뷰에 알림 탭 데이터 전송
         sendMessageToWebView({
-          type: 'NOTIFICATION_TAPPED',
-          data: response
+          type: "NOTIFICATION_TAPPED",
+          data: response,
         });
       }
     );
@@ -74,15 +105,15 @@ export function WebViewProvider({ children }: WebViewProviderProps) {
   const updateFcmToken = async (token: string): Promise<void> => {
     try {
       setFcmToken(token);
-      console.log('FCM token updated:', token);
+      console.log("FCM token updated:", token);
     } catch (error) {
-      console.error('Failed to update FCM token:', error);
+      console.error("Failed to update FCM token:", error);
     }
   };
 
   // 웹뷰에 메시지 전송 함수 (WebView 컴포넌트에서 오버라이드됨)
   let sendMessageToWebView = (message: any) => {
-    console.log('Sending message to WebView:', message);
+    console.log("Sending message to WebView:", message);
     // WebView 컴포넌트에서 postMessage를 통해 실제 전송
   };
 
@@ -93,26 +124,41 @@ export function WebViewProvider({ children }: WebViewProviderProps) {
 
   // 웹뷰에서 받은 메시지 처리
   const handleWebViewMessage = (message: any) => {
-    console.log('Received message from WebView:', message);
-    
+    console.log("Received message from WebView:", message);
+
     switch (message.type) {
-      case 'GET_FCM_TOKEN':
+      case "GET_FCM_TOKEN":
         // 웹뷰에서 FCM 토큰 요청
+        console.log("FCM token requested, current token:", fcmToken);
+        // 토큰이 객체인 경우 문자열만 추출
+        let tokenString = fcmToken;
+        if (
+          typeof fcmToken === "object" &&
+          fcmToken !== null &&
+          "fcmToken" in fcmToken
+        ) {
+          tokenString = (fcmToken as any).fcmToken;
+        }
         sendMessageToWebView({
-          type: 'FCM_TOKEN_RESPONSE',
-          token: fcmToken
+          type: "FCM_TOKEN_RESPONSE",
+          token: tokenString,
         });
         break;
-      
-      case 'UPDATE_FCM_TOKEN':
+
+      case "UPDATE_FCM_TOKEN":
         // 웹뷰에서 FCM 토큰 업데이트 요청
         if (message.token) {
           updateFcmToken(message.token);
         }
         break;
-      
+
+      case "DOWNLOAD_FILE":
+        // 파일 다운로드 요청: 실제 저장은 WebView 래퍼에서 처리
+        // 필요시 상태/콜백 추가 가능
+        console.log("DOWNLOAD_FILE 요청 수신 (실제 저장은 WebView에서 처리)");
+        break;
       default:
-        console.log('Unknown message type:', message.type);
+        console.log("Unknown message type:", message.type);
     }
   };
 
@@ -134,7 +180,7 @@ export function WebViewProvider({ children }: WebViewProviderProps) {
 export function useWebView() {
   const context = useContext(WebViewContext);
   if (context === undefined) {
-    throw new Error('useWebView must be used within a WebViewProvider');
+    throw new Error("useWebView must be used within a WebViewProvider");
   }
   return context;
-} 
+}
